@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chords in Major Scale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 8px;
+            margin: 10px;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .highlight {
+            background-color: lightyellow;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Major Scale Chords</h1>
+        <label for="key">Select a Key:</label>
+        <select id="key">
+            <option value="A">A</option>
+            <option value="Bb">Bb</option>
+            <option value="B">B</option>
+            <option value="C" selected>C</option>
+            <option value="Db">Db</option>
+            <option value="D">D</option>
+            <option value="Eb">Eb</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="Gb">Gb</option>
+            <option value="G">G</option>
+            <option value="Ab">Ab</option>
+        </select>
+    </header>
+    <table id="chordTable">
+        <thead>
+            <tr>
+                <th>Degree</th>
+                <th>Chord</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        const majorScales = {
+            A: ["A", "Bm", "C#m", "D", "E", "F#m", "G#dim"],
+            Bb: ["Bb", "Cm", "Dm", "Eb", "F", "Gm", "Adim"],
+            B: ["B", "C#m", "D#m", "E", "F#", "G#m", "A#dim"],
+            C: ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
+            Db: ["Db", "Ebm", "Fm", "Gb", "Ab", "Bbm", "Cdim"],
+            D: ["D", "Em", "F#m", "G", "A", "Bm", "C#dim"],
+            Eb: ["Eb", "Fm", "Gm", "Ab", "Bb", "Cm", "Ddim"],
+            E: ["E", "F#m", "G#m", "A", "B", "C#m", "D#dim"],
+            F: ["F", "Gm", "Am", "Bb", "C", "Dm", "Edim"],
+            Gb: ["Gb", "Abm", "Bbm", "B", "Db", "Ebm", "Fdim"],
+            G: ["G", "Am", "Bm", "C", "D", "Em", "F#dim"],
+            Ab: ["Ab", "Bbm", "Cm", "Db", "Eb", "Fm", "Gdim"]
+        };
+
+        const scaleDegrees = ["I", "ii", "iii", "IV", "V", "vi", "vii°"];
+        const keySelector = document.getElementById("key");
+        const chordTable = document.getElementById("chordTable").querySelector("tbody");
+
+        const highlightDegrees = ["I", "IV", "V", "vi"];
+
+        function updateChords(key) {
+            const chords = majorScales[key];
+            const entries = chords.map((chord, index) => {
+                const degree = scaleDegrees[index];
+                const maybeBold = highlightDegrees.includes(scaleDegrees[index]) ? 'highlight' : ''
+                return `<tr class="${maybeBold}">
+                    <td>${scaleDegrees[index]}</td>
+                    <td>
+                        ${chord}
+                    </td>
+                </tr>
+                `;
+            });
+            chordTable.innerHTML = entries.join("");
+        }
+
+        // Default to C major on page load
+        updateChords("C");
+
+        keySelector.addEventListener("change", () => {
+            updateChords(keySelector.value);
+        });
+    </script>
+</body>
+
+</html>
